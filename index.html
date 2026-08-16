@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scott Leimroth — local first</title>
+<meta name="color-scheme" content="dark">
+<style>
+  :root {
+    --bg: #0c0c0e;
+    --bg-2: #141417;
+    --ink: #ecece8;
+    --muted: #9a9a93;
+    --line: #2a2a2e;
+    --accent: #c4b49a;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--line);
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 1.25rem; font-size: 0.82rem; color: var(--muted); }
+  .nav-links a { color: var(--muted); }
+  .nav-links a:hover { color: var(--ink); }
+  main { max-width: 980px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .intro {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2.25rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 720px) {
+    .intro { grid-template-columns: 1fr; }
+    .portrait { max-width: 260px; }
+  }
+  .portrait {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    display: block;
+    border-radius: 3px;
+    filter: grayscale(8%) contrast(1.03);
+    border: 1px solid var(--line);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    line-height: 1.15;
+    margin: 0.2rem 0 1rem;
+  }
+  .lede { color: var(--muted); max-width: 46ch; margin-bottom: 1rem; }
+  .where { font-size: 0.92rem; color: var(--muted); }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 2.25rem 0 0.6rem;
+  }
+  @media (max-width: 720px) { .stats { grid-template-columns: 1fr 1fr; } }
+  .stat { background: var(--bg-2); padding: 1.1rem 1rem; }
+  .stat b {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .stat span { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.25rem; }
+  .source {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 2.75rem;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.45rem;
+    margin: 2.4rem 0 0.85rem;
+  }
+  .sub { color: var(--muted); margin-bottom: 1.1rem; max-width: 58ch; }
+  .rows { display: grid; gap: 0.65rem; }
+  .row, .card {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    padding: 0.95rem 1.05rem;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: baseline;
+  }
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
+  .row .name { color: var(--ink); }
+  .row .meta { color: var(--muted); font-size: 0.82rem; }
+  .row .num {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+  }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .card h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .card h3 a { color: var(--ink); }
+  .card p { color: var(--muted); font-size: 0.92rem; }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  footer {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  @media (max-width: 720px) { footer { flex-direction: column; } }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="#top">Scott Leimroth</a>
+  <div class="nav-links">
+    <a href="https://github.com/scottleimroth">GitHub</a>
+    <a href="https://www.localmaxxing.com/en/user/scottleimroth">LocalMaxxing</a>
+    <a href="https://scottleimroth.com">Research site</a>
+  </div>
+</nav>
+<main id="top">
+  <div class="intro">
+    <img class="portrait" src="./scott-leimroth-seated.jpg" alt="Scott Leimroth" width="800" height="1000">
+    <div>
+      <h1>Local first. Moving toward local only.</h1>
+      <p class="lede">Wollongong. Two DGX Sparks and a Geekom A9 Max. I run the models here. The benches are on LocalMaxxing. Some of the tools are already on GitHub.</p>
+      <p class="lede">My PhD focuses on psychophysiological changes to music at UoW. How heart, skin, and EEG answer a change in the music. I use MATLAB and the usual processing stack. My interests are research, family, motorbikes, and anything that catches my interest.</p>
+      <p class="where">github.com/scottleimroth · PhD candidate, School of Psychology, University of Wollongong</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>35</b><span>approved LocalMaxxing runs</span></div>
+    <div class="stat"><b>72.0</b><span>best tok/s, Spark GB10</span></div>
+    <div class="stat"><b>16</b><span>models measured</span></div>
+    <div class="stat"><b>13</b><span>public GitHub repos</span></div>
+  </div>
+  <p class="source">Counts from <a href="https://www.localmaxxing.com/en/user/scottleimroth">localmaxxing.com/en/user/scottleimroth</a> and <a href="https://github.com/scottleimroth">github.com/scottleimroth</a>, 16 Aug 2026. Not invented for this page.</p>
+
+  <h2>Published benches</h2>
+  <p class="sub">Personal bests already on LocalMaxxing. Spark rows are single-stream, idle box. Geekom rows are WSL2 + Vulkan on the Ryzen AI 9 HX 370 / Radeon 890M.</p>
+  <div class="rows">
+    <a class="row" href="https://www.localmaxxing.com/?run=cmsb59nkq004xqd01a04f0psj">
+      <span class="name">KAT-Coder-V2.5-Dev Q4_K_M</span>
+      <span class="meta">Spark GB10 · llama.cpp</span>
+      <span class="num">72.0 tok/s</span>
+    </a>
+    <a class="row" href="https://www.localmaxxing.com/?run=cmsb4phcl004fqd017ye39t14">
+      <span class="name">Qwen3.6-35B-A3B-NVFP4-Fast</span>
+      <span class="meta">Spark GB10 · vLLM</span>
+      <span class="num">70.6 tok/s</span>
+    </a>
+    <a class="row" href="https://www.localmaxxing.com/?run=cmsb59swi0054qd01076dtv7m">
+      <span class="name">Qwen3-Next-80B-A3B NVFP4</span>
+      <span class="meta">Spark GB10 · vLLM</span>
+      <span class="num">39.0 tok/s</span>
+    </a>
+    <a class="row" href="https://www.localmaxxing.com/?run=cmqztcqbq02v4oe01fntqlh97">
+      <span class="name">gemma-4-E2B-it Q4_K_M</span>
+      <span class="meta">Geekom 890M · llama.cpp</span>
+      <span class="num">35.2 tok/s</span>
+    </a>
+    <a class="row" href="https://www.localmaxxing.com/?run=cmsb4ptw5004lqd01nmz8pz4c">
+      <span class="name">gpt-oss-120b MXFP4</span>
+      <span class="meta">Spark GB10 · vLLM</span>
+      <span class="num">34.4 tok/s</span>
+    </a>
+  </div>
+  <p class="source" style="margin-top:0.8rem">Harness notes live in <a href="https://github.com/scottleimroth/geekom-benchmarks">geekom-benchmarks</a>. House chat is now Qwen3.8-27B NVFP4 on Spark 1; that row is not on LocalMaxxing yet.</p>
+
+  <h2>On GitHub</h2>
+  <p class="sub">A mixed bag on purpose: benches, house apps, hardware, research. The long writing stays on scottleimroth.com.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="tag">Benches</div>
+      <h3><a href="https://github.com/scottleimroth/geekom-benchmarks">geekom-benchmarks</a></h3>
+      <p>Local LLM inference on AMD Strix Point / Radeon 890M. First Ryzen AI 9 HX 370 rows on LocalMaxxing.</p>
+    </div>
+    <div class="card">
+      <div class="tag">House app</div>
+      <h3><a href="https://github.com/scottleimroth/bin-day-brain">bin-day-brain</a></h3>
+      <p>Wollongong bin-night reminders. The one that has to work on Tuesday.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Family business</div>
+      <h3><a href="https://github.com/scottleimroth/berrima-diesel-app">berrima-diesel-app</a></h3>
+      <p>Diesel price tracker and 4WD / caravan / motorhome route planner for Berrima Diesel.</p>
+    </div>
+    <div class="card">
+      <div class="tag">App</div>
+      <h3><a href="https://github.com/scottleimroth/moto-rally-multiapp">moto-rally-multiapp</a></h3>
+      <p>Australian motorcycle rally aggregator. Flutter, cross-platform.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Hardware</div>
+      <h3><a href="https://github.com/scottleimroth/open_oura">open_oura</a></h3>
+      <p>Rust toolkit for the Oura Ring. BLE protocol, local sync, no cloud required.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Hardware</div>
+      <h3><a href="https://github.com/scottleimroth/sky-scanner">sky-scanner</a></h3>
+      <p>Ceiling-mounted RTL-SDR + Pi. Radio spectrum as something you can look up at.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Hardware</div>
+      <h3><a href="https://github.com/scottleimroth/diy-handheld-diver-sonar">diy-handheld-diver-sonar</a></h3>
+      <p>Notes toward a handheld diver sonar. Still ideas, on purpose.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Research</div>
+      <h3><a href="https://github.com/scottleimroth/tempo-rhythm-perception-study">tempo-rhythm-perception-study</a></h3>
+      <p>Public info for the tempo / rhythm perception study. The PhD lives next door.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Research</div>
+      <h3><a href="https://github.com/scottleimroth/Research-Corpus-Pipeline">Research-Corpus-Pipeline</a></h3>
+      <p>Corpus pipeline for the research side. Python.</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <span>github.com/scottleimroth</span>
+  <span><a href="https://scottleimroth.com">scottleimroth.com</a> is the research / life site.</span>
+</footer>
+</body>
+</html>
